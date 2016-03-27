@@ -1,0 +1,834 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DominaturnModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Atencion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEquipoVentanilla" Type="bigint" />
+          <Property Name="IdUsuario" Type="bigint" />
+          <Property Name="IdTurno" Type="bigint" Nullable="false" />
+          <Property Name="IdTramite" Type="bigint" Nullable="false" />
+          <Property Name="Calificacion" Type="tinyint" />
+          <Property Name="Atendido" Type="bit" Nullable="false" />
+          <Property Name="Mostrado" Type="bit" Nullable="false" />
+          <Property Name="Numero" Type="bigint" Nullable="false" />
+          <Property Name="IdentificadorCliente" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="FechaHora" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AvisoExtra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdAtencion" Type="bigint" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CategoriaTramite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Activa" Type="bit" Nullable="false" />
+          <Property Name="Letra" Type="nvarchar" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EquipoCliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DeviceId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Configuraciones" Type="image" />
+        </EntityType>
+        <EntityType Name="EquipoVentanilla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Numero" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DeviceId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="Configuraciones" Type="image" />
+        </EntityType>
+        <EntityType Name="EquipoVentanillaCategoriaTramite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCategoriaTramite" Type="bigint" Nullable="false" />
+          <Property Name="IdEquipoVentanilla" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Noticia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Titulo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ColorTitulo" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="Cuerpo" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="ColorCuerpo" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="FechaNoticia" Type="datetime" Nullable="false" />
+          <Property Name="FechaFin" Type="datetime" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Requisito">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tramite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="IdTCategoriaTramite" Type="bigint" Nullable="false" />
+          <Property Name="Precio" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TramiteRequisito">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdTramite" Type="bigint" Nullable="false" />
+          <Property Name="IdRequisito" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Turno">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="TurnoActual" Type="int" Nullable="false" />
+          <Property Name="IdCategoriaTramite" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ci" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="Nombres" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Apellidos" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Contrasena" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Sal" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Foto" Type="image" />
+          <Property Name="Sexo" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Atencion">
+          <End Role="EquipoVentanilla" Type="Self.EquipoVentanilla" Multiplicity="0..1" />
+          <End Role="Atencion" Type="Self.Atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipoVentanilla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Atencion">
+              <PropertyRef Name="IdEquipoVentanilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Atencion2">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Atencion" Type="Self.Atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Atencion">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Atencion3">
+          <End Role="Turno" Type="Self.Turno" Multiplicity="1" />
+          <End Role="Atencion" Type="Self.Atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Atencion">
+              <PropertyRef Name="IdTurno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Atencion4">
+          <End Role="Tramite" Type="Self.Tramite" Multiplicity="1" />
+          <End Role="Atencion" Type="Self.Atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tramite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Atencion">
+              <PropertyRef Name="IdTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AvisoExtra">
+          <End Role="Atencion" Type="Self.Atencion" Multiplicity="1" />
+          <End Role="AvisoExtra" Type="Self.AvisoExtra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Atencion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AvisoExtra">
+              <PropertyRef Name="IdAtencion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipoVentanillaCategoriaTramite">
+          <End Role="CategoriaTramite" Type="Self.CategoriaTramite" Multiplicity="1" />
+          <End Role="EquipoVentanillaCategoriaTramite" Type="Self.EquipoVentanillaCategoriaTramite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaTramite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EquipoVentanillaCategoriaTramite">
+              <PropertyRef Name="IdCategoriaTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipoVentanillaCategoriaTramite2">
+          <End Role="EquipoVentanilla" Type="Self.EquipoVentanilla" Multiplicity="1" />
+          <End Role="EquipoVentanillaCategoriaTramite" Type="Self.EquipoVentanillaCategoriaTramite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipoVentanilla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EquipoVentanillaCategoriaTramite">
+              <PropertyRef Name="IdEquipoVentanilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tramite">
+          <End Role="CategoriaTramite" Type="Self.CategoriaTramite" Multiplicity="1" />
+          <End Role="Tramite" Type="Self.Tramite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaTramite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tramite">
+              <PropertyRef Name="IdTCategoriaTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TramiteRequisito">
+          <End Role="Tramite" Type="Self.Tramite" Multiplicity="1" />
+          <End Role="TramiteRequisito" Type="Self.TramiteRequisito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tramite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TramiteRequisito">
+              <PropertyRef Name="IdTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TramiteRequisito2">
+          <End Role="Requisito" Type="Self.Requisito" Multiplicity="1" />
+          <End Role="TramiteRequisito" Type="Self.TramiteRequisito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requisito">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TramiteRequisito">
+              <PropertyRef Name="IdRequisito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno">
+          <End Role="CategoriaTramite" Type="Self.CategoriaTramite" Multiplicity="1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaTramite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="IdCategoriaTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DominaturnModelStoreContainer">
+          <EntitySet Name="Atencion" EntityType="Self.Atencion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AvisoExtra" EntityType="Self.AvisoExtra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoriaTramite" EntityType="Self.CategoriaTramite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipoCliente" EntityType="Self.EquipoCliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipoVentanilla" EntityType="Self.EquipoVentanilla" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipoVentanillaCategoriaTramite" EntityType="Self.EquipoVentanillaCategoriaTramite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Noticia" EntityType="Self.Noticia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requisito" EntityType="Self.Requisito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tramite" EntityType="Self.Tramite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TramiteRequisito" EntityType="Self.TramiteRequisito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Atencion" Association="Self.FK_Atencion">
+            <End Role="EquipoVentanilla" EntitySet="EquipoVentanilla" />
+            <End Role="Atencion" EntitySet="Atencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Atencion2" Association="Self.FK_Atencion2">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Atencion" EntitySet="Atencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Atencion3" Association="Self.FK_Atencion3">
+            <End Role="Turno" EntitySet="Turno" />
+            <End Role="Atencion" EntitySet="Atencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Atencion4" Association="Self.FK_Atencion4">
+            <End Role="Tramite" EntitySet="Tramite" />
+            <End Role="Atencion" EntitySet="Atencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AvisoExtra" Association="Self.FK_AvisoExtra">
+            <End Role="Atencion" EntitySet="Atencion" />
+            <End Role="AvisoExtra" EntitySet="AvisoExtra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipoVentanillaCategoriaTramite" Association="Self.FK_EquipoVentanillaCategoriaTramite">
+            <End Role="CategoriaTramite" EntitySet="CategoriaTramite" />
+            <End Role="EquipoVentanillaCategoriaTramite" EntitySet="EquipoVentanillaCategoriaTramite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipoVentanillaCategoriaTramite2" Association="Self.FK_EquipoVentanillaCategoriaTramite2">
+            <End Role="EquipoVentanilla" EntitySet="EquipoVentanilla" />
+            <End Role="EquipoVentanillaCategoriaTramite" EntitySet="EquipoVentanillaCategoriaTramite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tramite" Association="Self.FK_Tramite">
+            <End Role="CategoriaTramite" EntitySet="CategoriaTramite" />
+            <End Role="Tramite" EntitySet="Tramite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TramiteRequisito" Association="Self.FK_TramiteRequisito">
+            <End Role="Tramite" EntitySet="Tramite" />
+            <End Role="TramiteRequisito" EntitySet="TramiteRequisito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TramiteRequisito2" Association="Self.FK_TramiteRequisito2">
+            <End Role="Requisito" EntitySet="Requisito" />
+            <End Role="TramiteRequisito" EntitySet="TramiteRequisito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno" Association="Self.FK_Turno">
+            <End Role="CategoriaTramite" EntitySet="CategoriaTramite" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DominaturnModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Atencion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEquipoVentanilla" Type="Int64" />
+          <Property Name="IdUsuario" Type="Int64" />
+          <Property Name="IdTurno" Type="Int64" Nullable="false" />
+          <Property Name="IdTramite" Type="Int64" Nullable="false" />
+          <Property Name="Calificacion" Type="Byte" />
+          <Property Name="Atendido" Type="Boolean" Nullable="false" />
+          <Property Name="Mostrado" Type="Boolean" Nullable="false" />
+          <Property Name="Numero" Type="Int64" Nullable="false" />
+          <Property Name="IdentificadorCliente" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaHora" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="EquipoVentanilla" Relationship="Self.FK_Atencion" FromRole="Atencion" ToRole="EquipoVentanilla" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Atencion2" FromRole="Atencion" ToRole="Usuario" />
+          <NavigationProperty Name="Turno" Relationship="Self.FK_Atencion3" FromRole="Atencion" ToRole="Turno" />
+          <NavigationProperty Name="Tramite" Relationship="Self.FK_Atencion4" FromRole="Atencion" ToRole="Tramite" />
+          <NavigationProperty Name="AvisoExtra" Relationship="Self.FK_AvisoExtra" FromRole="Atencion" ToRole="AvisoExtra" />
+        </EntityType>
+        <EntityType Name="AvisoExtra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdAtencion" Type="Int64" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Atencion" Relationship="Self.FK_AvisoExtra" FromRole="AvisoExtra" ToRole="Atencion" />
+        </EntityType>
+        <EntityType Name="CategoriaTramite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Activa" Type="Boolean" Nullable="false" />
+          <Property Name="Letra" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EquipoVentanillaCategoriaTramite" Relationship="Self.FK_EquipoVentanillaCategoriaTramite" FromRole="CategoriaTramite" ToRole="EquipoVentanillaCategoriaTramite" />
+          <NavigationProperty Name="Tramite" Relationship="Self.FK_Tramite" FromRole="CategoriaTramite" ToRole="Tramite" />
+          <NavigationProperty Name="Turno" Relationship="Self.FK_Turno" FromRole="CategoriaTramite" ToRole="Turno" />
+        </EntityType>
+        <EntityType Name="EquipoCliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DeviceId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Configuraciones" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="EquipoVentanilla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Numero" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DeviceId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="Configuraciones" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Atencion" Relationship="Self.FK_Atencion" FromRole="EquipoVentanilla" ToRole="Atencion" />
+          <NavigationProperty Name="EquipoVentanillaCategoriaTramite" Relationship="Self.FK_EquipoVentanillaCategoriaTramite2" FromRole="EquipoVentanilla" ToRole="EquipoVentanillaCategoriaTramite" />
+        </EntityType>
+        <EntityType Name="EquipoVentanillaCategoriaTramite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCategoriaTramite" Type="Int64" Nullable="false" />
+          <Property Name="IdEquipoVentanilla" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="CategoriaTramite" Relationship="Self.FK_EquipoVentanillaCategoriaTramite" FromRole="EquipoVentanillaCategoriaTramite" ToRole="CategoriaTramite" />
+          <NavigationProperty Name="EquipoVentanilla" Relationship="Self.FK_EquipoVentanillaCategoriaTramite2" FromRole="EquipoVentanillaCategoriaTramite" ToRole="EquipoVentanilla" />
+        </EntityType>
+        <EntityType Name="Noticia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Titulo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ColorTitulo" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="Cuerpo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ColorCuerpo" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="FechaNoticia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaFin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Requisito">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TramiteRequisito" Relationship="Self.FK_TramiteRequisito2" FromRole="Requisito" ToRole="TramiteRequisito" />
+        </EntityType>
+        <EntityType Name="Tramite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="IdTCategoriaTramite" Type="Int64" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Atencion" Relationship="Self.FK_Atencion4" FromRole="Tramite" ToRole="Atencion" />
+          <NavigationProperty Name="CategoriaTramite" Relationship="Self.FK_Tramite" FromRole="Tramite" ToRole="CategoriaTramite" />
+          <NavigationProperty Name="TramiteRequisito" Relationship="Self.FK_TramiteRequisito" FromRole="Tramite" ToRole="TramiteRequisito" />
+        </EntityType>
+        <EntityType Name="TramiteRequisito">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdTramite" Type="Int64" Nullable="false" />
+          <Property Name="IdRequisito" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Requisito" Relationship="Self.FK_TramiteRequisito2" FromRole="TramiteRequisito" ToRole="Requisito" />
+          <NavigationProperty Name="Tramite" Relationship="Self.FK_TramiteRequisito" FromRole="TramiteRequisito" ToRole="Tramite" />
+        </EntityType>
+        <EntityType Name="Turno">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TurnoActual" Type="Int32" Nullable="false" />
+          <Property Name="IdCategoriaTramite" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Atencion" Relationship="Self.FK_Atencion3" FromRole="Turno" ToRole="Atencion" />
+          <NavigationProperty Name="CategoriaTramite" Relationship="Self.FK_Turno" FromRole="Turno" ToRole="CategoriaTramite" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ci" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombres" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contrasena" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sal" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Atencion" Relationship="Self.FK_Atencion2" FromRole="Usuario" ToRole="Atencion" />
+        </EntityType>
+        <Association Name="FK_Atencion">
+          <End Role="EquipoVentanilla" Type="Self.EquipoVentanilla" Multiplicity="0..1" />
+          <End Role="Atencion" Type="Self.Atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipoVentanilla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Atencion">
+              <PropertyRef Name="IdEquipoVentanilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Atencion2">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Atencion" Type="Self.Atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Atencion">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Atencion3">
+          <End Role="Turno" Type="Self.Turno" Multiplicity="1" />
+          <End Role="Atencion" Type="Self.Atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Atencion">
+              <PropertyRef Name="IdTurno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Atencion4">
+          <End Role="Tramite" Type="Self.Tramite" Multiplicity="1" />
+          <End Role="Atencion" Type="Self.Atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tramite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Atencion">
+              <PropertyRef Name="IdTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AvisoExtra">
+          <End Role="Atencion" Type="Self.Atencion" Multiplicity="1" />
+          <End Role="AvisoExtra" Type="Self.AvisoExtra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Atencion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AvisoExtra">
+              <PropertyRef Name="IdAtencion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipoVentanillaCategoriaTramite">
+          <End Role="CategoriaTramite" Type="Self.CategoriaTramite" Multiplicity="1" />
+          <End Role="EquipoVentanillaCategoriaTramite" Type="Self.EquipoVentanillaCategoriaTramite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaTramite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EquipoVentanillaCategoriaTramite">
+              <PropertyRef Name="IdCategoriaTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tramite">
+          <End Role="CategoriaTramite" Type="Self.CategoriaTramite" Multiplicity="1" />
+          <End Role="Tramite" Type="Self.Tramite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaTramite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tramite">
+              <PropertyRef Name="IdTCategoriaTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno">
+          <End Role="CategoriaTramite" Type="Self.CategoriaTramite" Multiplicity="1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaTramite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="IdCategoriaTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipoVentanillaCategoriaTramite2">
+          <End Role="EquipoVentanilla" Type="Self.EquipoVentanilla" Multiplicity="1" />
+          <End Role="EquipoVentanillaCategoriaTramite" Type="Self.EquipoVentanillaCategoriaTramite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipoVentanilla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EquipoVentanillaCategoriaTramite">
+              <PropertyRef Name="IdEquipoVentanilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TramiteRequisito2">
+          <End Role="Requisito" Type="Self.Requisito" Multiplicity="1" />
+          <End Role="TramiteRequisito" Type="Self.TramiteRequisito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requisito">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TramiteRequisito">
+              <PropertyRef Name="IdRequisito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TramiteRequisito">
+          <End Role="Tramite" Type="Self.Tramite" Multiplicity="1" />
+          <End Role="TramiteRequisito" Type="Self.TramiteRequisito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tramite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TramiteRequisito">
+              <PropertyRef Name="IdTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DominaturnEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Atencion" EntityType="Self.Atencion" />
+          <EntitySet Name="AvisoExtra" EntityType="Self.AvisoExtra" />
+          <EntitySet Name="CategoriaTramite" EntityType="Self.CategoriaTramite" />
+          <EntitySet Name="EquipoCliente" EntityType="Self.EquipoCliente" />
+          <EntitySet Name="EquipoVentanilla" EntityType="Self.EquipoVentanilla" />
+          <EntitySet Name="EquipoVentanillaCategoriaTramite" EntityType="Self.EquipoVentanillaCategoriaTramite" />
+          <EntitySet Name="Noticia" EntityType="Self.Noticia" />
+          <EntitySet Name="Requisito" EntityType="Self.Requisito" />
+          <EntitySet Name="Tramite" EntityType="Self.Tramite" />
+          <EntitySet Name="TramiteRequisito" EntityType="Self.TramiteRequisito" />
+          <EntitySet Name="Turno" EntityType="Self.Turno" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_Atencion" Association="Self.FK_Atencion">
+            <End Role="EquipoVentanilla" EntitySet="EquipoVentanilla" />
+            <End Role="Atencion" EntitySet="Atencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Atencion2" Association="Self.FK_Atencion2">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Atencion" EntitySet="Atencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Atencion3" Association="Self.FK_Atencion3">
+            <End Role="Turno" EntitySet="Turno" />
+            <End Role="Atencion" EntitySet="Atencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Atencion4" Association="Self.FK_Atencion4">
+            <End Role="Tramite" EntitySet="Tramite" />
+            <End Role="Atencion" EntitySet="Atencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AvisoExtra" Association="Self.FK_AvisoExtra">
+            <End Role="Atencion" EntitySet="Atencion" />
+            <End Role="AvisoExtra" EntitySet="AvisoExtra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipoVentanillaCategoriaTramite" Association="Self.FK_EquipoVentanillaCategoriaTramite">
+            <End Role="CategoriaTramite" EntitySet="CategoriaTramite" />
+            <End Role="EquipoVentanillaCategoriaTramite" EntitySet="EquipoVentanillaCategoriaTramite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tramite" Association="Self.FK_Tramite">
+            <End Role="CategoriaTramite" EntitySet="CategoriaTramite" />
+            <End Role="Tramite" EntitySet="Tramite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno" Association="Self.FK_Turno">
+            <End Role="CategoriaTramite" EntitySet="CategoriaTramite" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipoVentanillaCategoriaTramite2" Association="Self.FK_EquipoVentanillaCategoriaTramite2">
+            <End Role="EquipoVentanilla" EntitySet="EquipoVentanilla" />
+            <End Role="EquipoVentanillaCategoriaTramite" EntitySet="EquipoVentanillaCategoriaTramite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TramiteRequisito2" Association="Self.FK_TramiteRequisito2">
+            <End Role="Requisito" EntitySet="Requisito" />
+            <End Role="TramiteRequisito" EntitySet="TramiteRequisito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TramiteRequisito" Association="Self.FK_TramiteRequisito">
+            <End Role="Tramite" EntitySet="Tramite" />
+            <End Role="TramiteRequisito" EntitySet="TramiteRequisito" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DominaturnModelStoreContainer" CdmEntityContainer="DominaturnEntities">
+          <EntitySetMapping Name="Atencion">
+            <EntityTypeMapping TypeName="DominaturnModel.Atencion">
+              <MappingFragment StoreEntitySet="Atencion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdEquipoVentanilla" ColumnName="IdEquipoVentanilla" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdTurno" ColumnName="IdTurno" />
+                <ScalarProperty Name="IdTramite" ColumnName="IdTramite" />
+                <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
+                <ScalarProperty Name="Atendido" ColumnName="Atendido" />
+                <ScalarProperty Name="Mostrado" ColumnName="Mostrado" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="IdentificadorCliente" ColumnName="IdentificadorCliente" />
+                <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AvisoExtra">
+            <EntityTypeMapping TypeName="DominaturnModel.AvisoExtra">
+              <MappingFragment StoreEntitySet="AvisoExtra">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdAtencion" ColumnName="IdAtencion" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoriaTramite">
+            <EntityTypeMapping TypeName="DominaturnModel.CategoriaTramite">
+              <MappingFragment StoreEntitySet="CategoriaTramite">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Activa" ColumnName="Activa" />
+                <ScalarProperty Name="Letra" ColumnName="Letra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipoCliente">
+            <EntityTypeMapping TypeName="DominaturnModel.EquipoCliente">
+              <MappingFragment StoreEntitySet="EquipoCliente">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Configuraciones" ColumnName="Configuraciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipoVentanilla">
+            <EntityTypeMapping TypeName="DominaturnModel.EquipoVentanilla">
+              <MappingFragment StoreEntitySet="EquipoVentanilla">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Configuraciones" ColumnName="Configuraciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipoVentanillaCategoriaTramite">
+            <EntityTypeMapping TypeName="DominaturnModel.EquipoVentanillaCategoriaTramite">
+              <MappingFragment StoreEntitySet="EquipoVentanillaCategoriaTramite">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdCategoriaTramite" ColumnName="IdCategoriaTramite" />
+                <ScalarProperty Name="IdEquipoVentanilla" ColumnName="IdEquipoVentanilla" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Noticia">
+            <EntityTypeMapping TypeName="DominaturnModel.Noticia">
+              <MappingFragment StoreEntitySet="Noticia">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="ColorTitulo" ColumnName="ColorTitulo" />
+                <ScalarProperty Name="Cuerpo" ColumnName="Cuerpo" />
+                <ScalarProperty Name="ColorCuerpo" ColumnName="ColorCuerpo" />
+                <ScalarProperty Name="FechaNoticia" ColumnName="FechaNoticia" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requisito">
+            <EntityTypeMapping TypeName="DominaturnModel.Requisito">
+              <MappingFragment StoreEntitySet="Requisito">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tramite">
+            <EntityTypeMapping TypeName="DominaturnModel.Tramite">
+              <MappingFragment StoreEntitySet="Tramite">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdTCategoriaTramite" ColumnName="IdTCategoriaTramite" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TramiteRequisito">
+            <EntityTypeMapping TypeName="DominaturnModel.TramiteRequisito">
+              <MappingFragment StoreEntitySet="TramiteRequisito">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdTramite" ColumnName="IdTramite" />
+                <ScalarProperty Name="IdRequisito" ColumnName="IdRequisito" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Turno">
+            <EntityTypeMapping TypeName="DominaturnModel.Turno">
+              <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="TurnoActual" ColumnName="TurnoActual" />
+                <ScalarProperty Name="IdCategoriaTramite" ColumnName="IdCategoriaTramite" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="DominaturnModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ci" ColumnName="Ci" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="Sal" ColumnName="Sal" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
