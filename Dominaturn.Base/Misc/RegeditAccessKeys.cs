@@ -8,7 +8,7 @@ namespace Dominaturn.Base.Misc
         private RegistryKey Key { get; set; }
         private RegeditAccessKeys()
         {
-
+            //hola mundo// sex
 
         }
 
