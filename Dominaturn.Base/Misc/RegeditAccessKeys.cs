@@ -8,10 +8,8 @@ namespace Dominaturn.Base.Misc
         private RegistryKey Key { get; set; }
         private RegeditAccessKeys()
         {
-            //hola mundo// sex
-
+            //hola mundo// sex666
         }
-
         public static RegeditAccessKeys BuildInitialRegistryKey(RegistryHive registryHive, String baseKey)
         {
             return new RegeditAccessKeys { Key = RegistryKey.OpenBaseKey(registryHive, Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32).OpenSubKey(baseKey) };
